@@ -13,8 +13,8 @@
 <app-header></app-header>
 <mat-list>
     <mat-list-item *ngFor="let task of tasks$ | async">
-        <mat-icon delete (click)="delete(task)">delete</mat-icon>
-        <h4>
+        <mat-icon class="pointer" delete (click)="delete(task)">delete</mat-icon>
+        <h4 class="pointer">
             <a (click)="update(task)">{{task.name}}</a>
         </h4>
     </mat-list-item>

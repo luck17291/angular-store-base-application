@@ -74,8 +74,8 @@ export class DeleteFailAction implements Action {
     constructor(public payload: Task) { }
 }
 
-export type Actions = 
-LoadAction | LoadCompletedAction | 
-AddAction | AddCompletedAction | AddFailAction |
-UpdateAction | UpdateCompletedAction | UpdateFailAction |
-DeleteAction | DeleteCompletedAction | DeleteFailAction;
+export type Actions =
+    LoadAction | LoadCompletedAction |
+    AddAction | AddCompletedAction | AddFailAction |
+    UpdateAction | UpdateCompletedAction | UpdateFailAction |
+    DeleteAction | DeleteCompletedAction | DeleteFailAction;

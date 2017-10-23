@@ -1,5 +1,5 @@
 import { Task } from '../models/task';
-import * as task from '../actions/task.actions';
+import * as TASK from '../actions/task.actions';
 import { Message, MessageType } from '../models/message';
 
 export interface State {
@@ -16,15 +16,15 @@ const initialState: State = {
     message: null
 };
 
-export function reducer(state = initialState, action: task.Actions): State {
+export function reducer(state = initialState, action: TASK.Actions): State {
     switch (action.type) {
-        case task.LOAD: {
+        case TASK.LOAD: {
             return Object.assign({}, state, {
                 loading: true,
                 numberIncompletedTasks: countIncompletedTasks(state.entities)
             });
         }
-        case task.LOAD_COMPLETED: {
+        case TASK.LOAD_COMPLETED: {
             const tasks = action.payload;
             return {
                 ...state,
@@ -37,17 +37,16 @@ export function reducer(state = initialState, action: task.Actions): State {
                 }
             }
         }
-        case task.DELETE:
-        case task.UPDATE:
-        case task.ADD_FAIL:
-        case task.ADD: {
+        case TASK.DELETE:
+        case TASK.UPDATE:
+        case TASK.ADD: {
             return {
                 ...state,
                 loading: true
             }
         }
 
-        case task.ADD_COMPLETED: {
+        case TASK.ADD_COMPLETED: {
             const task = action.payload;
             return {
                 ...state,
@@ -61,7 +60,7 @@ export function reducer(state = initialState, action: task.Actions): State {
             }
         }
 
-        case task.DELETE_COMPLETED: {
+        case TASK.DELETE_COMPLETED: {
             const task = action.payload;
             return {
                 ...state,
@@ -74,7 +73,7 @@ export function reducer(state = initialState, action: task.Actions): State {
                 }
             }
         }
-        case task.UPDATE_COMPLETED:
+        case TASK.UPDATE_COMPLETED:
             {
                 const task = action.payload;
                 return {
@@ -94,7 +93,7 @@ export function reducer(state = initialState, action: task.Actions): State {
                 }
             }
 
-        case task.ADD_FAIL:
+        case TASK.ADD_FAIL:
             {
                 return {
                     ...state,
@@ -105,7 +104,7 @@ export function reducer(state = initialState, action: task.Actions): State {
                     }
                 }
             }
-        case task.DELETE_FAIL:
+        case TASK.DELETE_FAIL:
             {
                 return {
                     ...state,
@@ -116,7 +115,7 @@ export function reducer(state = initialState, action: task.Actions): State {
                     }
                 }
             }
-        case task.UPDATE_FAIL:
+        case TASK.UPDATE_FAIL:
             {
                 return {
                     ...state,
@@ -127,7 +126,7 @@ export function reducer(state = initialState, action: task.Actions): State {
                     }
                 }
             }
-        case task.LOAD_FAIL:
+        case TASK.LOAD_FAIL:
             {
                 return {
                     ...state,

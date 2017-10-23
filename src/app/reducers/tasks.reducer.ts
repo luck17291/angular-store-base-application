@@ -98,6 +98,7 @@ export function reducer(state = initialState, action: task.Actions): State {
             {
                 return {
                     ...state,
+                    loading: false,
                     message: {
                         type: MessageType.Error,
                         content: 'Error adding'
@@ -108,6 +109,7 @@ export function reducer(state = initialState, action: task.Actions): State {
             {
                 return {
                     ...state,
+                    loading: false,
                     message: {
                         type: MessageType.Error,
                         content: 'Error deleting'
@@ -118,6 +120,7 @@ export function reducer(state = initialState, action: task.Actions): State {
             {
                 return {
                     ...state,
+                    loading: false,
                     message: {
                         type: MessageType.Error,
                         content: 'Error updating'
@@ -128,6 +131,7 @@ export function reducer(state = initialState, action: task.Actions): State {
             {
                 return {
                     ...state,
+                    loading: false,
                     message: {
                         type: MessageType.Error,
                         content: 'Error loading'

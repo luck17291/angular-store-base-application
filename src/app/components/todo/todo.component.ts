@@ -25,11 +25,8 @@ export class TodoComponent implements OnInit {
 
   ngOnInit() {
     this.getData();
-    // this.tasks$.subscribe(task => {
-    //   this.store.dispatch(new taskAction.UpdateAction(task));
-    // })
   }
-  
+
   getData() {
     this.store.dispatch(new taskAction.LoadAction());
   }
@@ -63,10 +60,6 @@ export class TodoComponent implements OnInit {
 
   delete(task: Task) {
     this.store.dispatch(new taskAction.DeleteAction(task));
-  }
-
-  onCheck(task: Task){
-    this.store.dispatch(new taskAction.UpdateAction(task));
   }
 }
 

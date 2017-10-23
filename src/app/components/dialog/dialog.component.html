@@ -4,6 +4,7 @@
     <input matInput tabindex="1" [(ngModel)]="data.name">
   </mat-form-field>
 </div>
+<mat-checkbox [(ngModel)]="data.isCompleted"> Completed</mat-checkbox>
 <div mat-dialog-actions>
   <button mat-button tabindex="2" (click)="save()">Save</button>
   <button mat-button (click)="close()" tabindex="-1">Close</button>

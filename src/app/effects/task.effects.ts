@@ -24,6 +24,7 @@ export class TaskEffects {
                 .map((tasks: Task[]) => {
                     return new task.LoadCompletedAction(tasks)
                 })
+                .catch(() => of(new task.LoadFailAction(null)))
         );
 
     @Effect()

@@ -25,7 +25,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { ToasterComponent } from './components/toaster/toaster.component';
 
-import {MatCheckboxModule} from '@angular/material';
+import { MatCheckboxModule, MatInputModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -41,12 +41,13 @@ import {MatCheckboxModule} from '@angular/material';
     ImportMaterialModule,
     HttpModule,
     FormsModule,
-    InMemoryWebApiModule.forRoot(InMemTodoService, { delay: 1500 }),
+    InMemoryWebApiModule.forRoot(InMemTodoService, { delay: 500 }),
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument(),
     EffectsModule.forRoot([TaskEffects]),
     ToastyModule.forRoot(),
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatInputModule
   ],
   providers: [
     TaskService

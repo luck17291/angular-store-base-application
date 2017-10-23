@@ -51,6 +51,7 @@ import {MatCheckboxModule} from '@angular/material';
   providers: [
     TaskService
   ],
-  bootstrap: [AppComponent,DialogComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DialogComponent],
 })
 export class AppModule { }

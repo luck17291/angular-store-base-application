@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Task } from '../../models/task';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import * as task from '../../reducers';
+import * as fromTask from '../../reducers';
 import * as taskAction from '../../actions/task.actions';
 import { DialogComponent } from '../../components/dialog/dialog.component';
 ;
@@ -17,10 +17,11 @@ export class TodoComponent implements OnInit {
   tasks$: Observable<Task[]>;
   isLoading$: Observable<boolean>;
 
-  constructor(private store: Store<task.State>,
+  constructor(private store: Store<fromTask.TaskState>,
     public dialog: MatDialog, ) {
-    this.tasks$ = store.select('task').select('entities');
-    this.isLoading$ = store.select('task').select('loading');
+    this.tasks$ = store.select(fromTask.selectAllTasks);
+    this.isLoading$ = store.select(fromTask.selectIsLoading);
+
   }
 
   ngOnInit() {
@@ -32,10 +33,10 @@ export class TodoComponent implements OnInit {
   }
 
   add() {
-    let task = new Task();
+    let task: Task;
     let dialogRef = this.dialog.open(DialogComponent, {
       width: '250px',
-      data: task
+      data: Object.assign({}, task)
     });
 
     dialogRef.afterClosed().subscribe(result => {

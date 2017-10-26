@@ -12,18 +12,16 @@ import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class TaskEffects {
-    constructor(private action$: Actions, private taskService: TaskService) {
-
-    }
+    constructor(private action$: Actions, private taskService: TaskService) { }
 
     @Effect()
     loadTasks: Observable<Action> = this.action$
         .ofType(task.LOAD)
         .switchMap(() =>
             this.taskService.getTasks()
-                .map((tasks: Task[]) => {
-                    return new task.LoadCompletedAction(tasks)
-                })
+                .map((tasks: Task[]) =>
+                    new task.LoadCompletedAction({ tasks })
+                )
                 .catch(() => of(new task.LoadFailAction(null)))
         );
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Message, MessageType } from '../../models/message';
 import { Store } from '@ngrx/store';
-import * as task from '../../reducers';
+import * as fromTask from '../../reducers';
 import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty';
 
 
@@ -14,11 +14,11 @@ import { ToastyService, ToastyConfig, ToastOptions, ToastData } from 'ng2-toasty
 export class ToasterComponent implements OnInit {
   message$: Observable<Message>
   constructor(
-    private store: Store<task.State>,
+    private store: Store<fromTask.TaskState>,
     private toastyService: ToastyService,
     private toastyConfig: ToastyConfig,
   ) {
-    this.message$ = store.select('task').select('message');
+    this.message$ = store.select(fromTask.selectMessage);
     this.toastyConfig.theme = 'material';
   }
 

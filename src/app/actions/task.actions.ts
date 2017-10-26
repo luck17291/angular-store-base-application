@@ -21,12 +21,12 @@ export class LoadAction implements Action {
 
 export class LoadCompletedAction implements Action {
     type = LOAD_COMPLETED;
-    constructor(public payload: Task[]) { }
+    constructor(public payload: { tasks: Task[] }) { }
 }
 
 export class LoadFailAction implements Action {
     type = LOAD_FAIL;
-    constructor(public payload: Task[]) { }
+    constructor(public payload: { tasks: Task[] }) { }
 }
 
 export class AddAction implements Action {
@@ -74,8 +74,8 @@ export class DeleteFailAction implements Action {
     constructor(public payload: Task) { }
 }
 
-export type Actions =
-    LoadAction | LoadCompletedAction |
+export type All =
+    LoadAction | LoadCompletedAction | LoadFailAction |
     AddAction | AddCompletedAction | AddFailAction |
     UpdateAction | UpdateCompletedAction | UpdateFailAction |
     DeleteAction | DeleteCompletedAction | DeleteFailAction;

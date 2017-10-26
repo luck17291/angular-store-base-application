@@ -15,6 +15,7 @@ export class DialogComponent {
     public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Task) {
     this.actionName = this.data.id ? "Update" : "Add new";
+    this.data.isCompleted = this.data.isCompleted ? this.data.isCompleted : false;
   }
 
   save() {

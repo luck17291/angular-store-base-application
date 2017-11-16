@@ -1,66 +1,42 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Task } from '../../models/task';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as fromTask from '../../reducers';
 import * as taskAction from '../../actions/task.actions';
-import { DialogComponent } from '../../components/dialog/dialog.component';
-;
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
   styleUrls: ['./todo.component.scss']
 })
-export class TodoComponent implements OnInit {
-  tasks$: Observable<Task[]>;
-  isLoading$: Observable<boolean>;
+export class TodoComponent {
+  @Input() tasks$: Observable<Task[]>;
 
-  constructor(private store: Store<fromTask.TaskState>,
-    public dialog: MatDialog, ) {
-    this.tasks$ = store.select(fromTask.selectAllTasks);
-    this.isLoading$ = store.select(fromTask.selectIsLoading);
+  @Input() isLoading$: Observable<boolean>;
 
-  }
+  @Output() onGet : EventEmitter<string> = new EventEmitter();
 
-  ngOnInit() {
-    this.getData();
-  }
+  @Output() onAddTask : EventEmitter<string> = new EventEmitter();
+
+  @Output() onUpdate : EventEmitter<Task> = new EventEmitter();
+
+  @Output() onDelete : EventEmitter<Task> = new EventEmitter();
 
   getData() {
-    this.store.dispatch(new taskAction.LoadAction());
+    this.onGet.emit();
   }
 
   add() {
-    let task: Task;
-    let dialogRef = this.dialog.open(DialogComponent, {
-      width: '250px',
-      data: Object.assign({}, task)
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.store.dispatch(new taskAction.AddAction(result));
-      }
-    });
+    this.onAddTask.emit();
   }
 
   update(task: Task) {
-    let dialogRef = this.dialog.open(DialogComponent, {
-      width: '250px',
-      data: Object.assign({}, task)
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.store.dispatch(new taskAction.UpdateAction(result));
-      }
-    });
+    this.onUpdate.emit(task);
   }
 
   delete(task: Task) {
-    this.store.dispatch(new taskAction.DeleteAction(task));
+    this.onDelete.emit(task);
   }
 }
 

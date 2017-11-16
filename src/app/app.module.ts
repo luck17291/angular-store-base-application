@@ -24,12 +24,13 @@ import { TodoComponent } from './components/todo/todo.component';
 import { HeaderComponent } from './components/header/header.component';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { ToasterComponent } from './components/toaster/toaster.component';
-
+import { TasksPage } from './containers/tasks-page';
 import { MatCheckboxModule, MatInputModule } from '@angular/material';
 
 @NgModule({
   declarations: [
     AppComponent,
+    TasksPage,
     TodoComponent,
     HeaderComponent,
     DialogComponent,

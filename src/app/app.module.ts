@@ -24,17 +24,16 @@ import { TodoComponent } from './components/todo/todo.component';
 import { HeaderComponent } from './components/header/header.component';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { ToasterComponent } from './components/toaster/toaster.component';
-import { TasksPage } from './containers/tasks-page';
-import { MatCheckboxModule, MatInputModule } from '@angular/material';
+import { TaskCollectionComponent } from './containers/task-collection/task-collection.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TasksPage,
     TodoComponent,
     HeaderComponent,
     DialogComponent,
-    ToasterComponent
+    ToasterComponent,
+    TaskCollectionComponent
   ],
   imports: [
     BrowserModule,
@@ -46,9 +45,7 @@ import { MatCheckboxModule, MatInputModule } from '@angular/material';
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument(),
     EffectsModule.forRoot([TaskEffects]),
-    ToastyModule.forRoot(),
-    MatCheckboxModule,
-    MatInputModule
+    ToastyModule.forRoot()
   ],
   providers: [
     TaskService

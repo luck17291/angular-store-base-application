@@ -1,0 +1,14 @@
+<mat-toolbar color="primary">
+  <span>Todo List</span>
+  <button mat-icon-button (click)="getData()">
+    <mat-icon>loop</mat-icon>
+  </button>
+  <button mat-icon-button (click)="add()">
+    <mat-icon>control_point</mat-icon>
+  </button>
+</mat-toolbar>
+<br>
+<mat-progress-bar mode="indeterminate" *ngIf="isLoading$ | async"></mat-progress-bar>
+<app-toaster></app-toaster>
+<app-header></app-header>
+<app-todo [tasks$]="tasks$" (onUpdate)="update($event)" (onDelete)="delete($event)"></app-todo>

@@ -6,7 +6,7 @@ import 'zone.js/dist/sync-test';
 import 'zone.js/dist/jasmine-patch';
 import 'zone.js/dist/async-test';
 import 'zone.js/dist/fake-async-test';
-import { getTestBed } from '@angular/core/testing';
+import {TestBed,getTestBed } from '@angular/core/testing';
 import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting
@@ -20,7 +20,7 @@ declare const require: any;
 __karma__.loaded = function () {};
 
 // First, initialize the Angular testing environment.
-getTestBed().initTestEnvironment(
+TestBed.initTestEnvironment(
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting()
 );

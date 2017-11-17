@@ -11,13 +11,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
     selector: 'tasks-page',
-    template: `
-    <app-todo [isLoading$]="isLoading$" 
-        [tasks$]="tasks$" 
-        (onGet)="getData()" 
-        (onAddTask)="add()" 
-        (onUpdate)="update($event)" 
-        (onDelete)="delete($event)"></app-todo>`,
+    templateUrl: './tasks-page.html',
 
 })
 export class TasksPage implements OnInit {

@@ -68,9 +68,21 @@ describe('test smart component', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action)
   })
 
+  it('should dispatch taskAction.AddAction when add task', () => {
+    const action = new taskAction.AddAction(task1);
+    component.addTask(task1);
+    expect(store.dispatch).toHaveBeenCalledWith(action)
+  });
+
+  it('should dispatch taskAction.Update when update task', () => {
+    const action = new taskAction.UpdateAction(task1);
+    component.updateTask(task1);
+    expect(store.dispatch).toHaveBeenCalledWith(action)
+  });
+
   it('should dispatch taskAction.DeleteAction when delete task', () => {
     const action = new taskAction.DeleteAction(task1);
-    component.delete(task1);
+    component.onDeleteTask(task1);
     expect(store.dispatch).toHaveBeenCalledWith(action)
   })
 

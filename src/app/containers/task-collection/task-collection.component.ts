@@ -10,59 +10,63 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 
 @Component({
-  selector: 'task-collection',
-  templateUrl: './task-collection.component.html',
-  styleUrls: ['./task-collection.component.scss']
+    selector: 'task-collection',
+    templateUrl: './task-collection.component.html',
+    styleUrls: ['./task-collection.component.scss']
 })
 export class TaskCollectionComponent implements OnInit {
+    tasks$: Observable<Task[]>;
+    isLoading$: Observable<boolean>;
+    component;
+    constructor(private store: Store<fromTask.TaskState>, public dialog: MatDialog) {
+        this.tasks$ = store.select(fromTask.selectAllTasks);
+        this.isLoading$ = store.select(fromTask.selectIsLoading);
+    }
 
-  tasks$: Observable<Task[]>;
-  isLoading$: Observable<boolean>;
+    ngOnInit() {
+        this.getData();
+    }
 
-  constructor(private store: Store<fromTask.TaskState>, public dialog: MatDialog) {
-      this.tasks$ = store.select(fromTask.selectAllTasks);
-      this.isLoading$ = store.select(fromTask.selectIsLoading);
+    getData() {
+        this.store.dispatch(new taskAction.LoadAction());
+    }
 
-  }
+    onAddTask() {
+        let task: Task;
+        let dialogRef = this.dialog.open(DialogComponent, {
+            width: '250px',
+            data: Object.assign({}, task)
+        });
 
-  ngOnInit() {
-      this.getData();
-  }
+        dialogRef.afterClosed().subscribe(result => this.addTask(result));
+    }
 
-  getData() {
-      this.store.dispatch(new taskAction.LoadAction());
-  }
+    addTask(task: any) {
+        if (task) {
+            this.store.dispatch(new taskAction.AddAction(task));
+        }
+    }
 
-  add() {
-      let task: Task;
-      let dialogRef = this.dialog.open(DialogComponent, {
-          width: '250px',
-          data: Object.assign({}, task)
-      });
+    onUpdateTask(task: Task) {
+        let dialogRef = this.dialog.open(DialogComponent, {
+            width: '250px',
+            data: Object.assign({}, task)
+        });
 
-      dialogRef.afterClosed().subscribe(result => {
-          if (result) {
-              this.store.dispatch(new taskAction.AddAction(result));
-          }
-      });
-  }
+        dialogRef.afterClosed().subscribe(result => this.updateTask(result));
+    }
 
-  update(task: Task) {
-      let dialogRef = this.dialog.open(DialogComponent, {
-          width: '250px',
-          data: Object.assign({}, task)
-      });
+    updateTask(task: any) {
+        if (task) {
+            this.store.dispatch(new taskAction.UpdateAction(task));
+        }
+    }
 
-      dialogRef.afterClosed().subscribe(result => {
-          if (result) {
-              this.store.dispatch(new taskAction.UpdateAction(result));
-          }
-      });
-  }
-
-  delete(task: Task) {
-      this.store.dispatch(new taskAction.DeleteAction(task));
-  }
+    onDeleteTask(task: Task) {
+        if (task) {
+            this.store.dispatch(new taskAction.DeleteAction(task));
+        }
+    }
 
 
 }

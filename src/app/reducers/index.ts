@@ -5,8 +5,8 @@ export interface TaskState {
     tasks: fromTask.State;
 }
 
-export const reducers: ActionReducerMap<TaskState> = {
-    tasks: fromTask.reducer
+export const fromRoot: ActionReducerMap<TaskState> = {
+    tasks: fromTask.fromTasks
 }
 
 export const selectTaskState = createFeatureSelector<fromTask.State>('tasks');

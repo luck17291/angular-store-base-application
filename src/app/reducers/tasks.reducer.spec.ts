@@ -1,4 +1,4 @@
-import { reducer, State, initialState, adapter } from './tasks.reducer';
+import { fromTasks, State, initialState, adapter } from './tasks.reducer';
 import * as TaskAction from '../actions/task.actions';
 import { Message, MessageType } from '../models/message';
 import { Task } from '../models/task';
@@ -8,7 +8,7 @@ describe('Task reducer', () => {
     const task2 = { id: 2, name: "task 2", isCompleted: false } as Task;
 
     it('Tasks reducer initial state', () => {
-        let state: State = reducer(undefined, { type: null, payload: null });
+        let state: State = fromTasks(undefined, { type: null, payload: null });
 
         expect(state).toEqual(initialState);
 
@@ -23,7 +23,7 @@ describe('Task reducer', () => {
 
         }
 
-        let state = reducer(initialState, { type: TaskAction.LOAD, payload: null });
+        let state = fromTasks(initialState, { type: TaskAction.LOAD, payload: null });
         expect(state.ids.length).toEqual(expectation.ids.length);
         expect(expectation).not.toEqual(initialState);
     });
@@ -40,7 +40,7 @@ describe('Task reducer', () => {
             }
         }
 
-        let state = reducer(initialState, { type: TaskAction.LOAD_COMPLETED, payload: { tasks: [task1, task2] } });
+        let state = fromTasks(initialState, { type: TaskAction.LOAD_COMPLETED, payload: { tasks: [task1, task2] } });
         expect(state.ids.length).toEqual(expectation.ids.length);
         expect(expectation).not.toEqual(initialState);
     });
@@ -57,7 +57,7 @@ describe('Task reducer', () => {
             }
         }
 
-        let state = reducer(initialState, { type: TaskAction.LOAD_FAIL, payload: null });
+        let state = fromTasks(initialState, { type: TaskAction.LOAD_FAIL, payload: null });
         expect(state.ids.length).toEqual(expectation.ids.length);
         expect(expectation).not.toEqual(initialState);
     });

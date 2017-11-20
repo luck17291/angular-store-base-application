@@ -16,7 +16,7 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { reducers } from './reducers';
+import { fromRoot } from './reducers';
 import { TaskEffects } from './effects/task.effects';
 
 import { TaskService } from './services/task.service';
@@ -42,7 +42,7 @@ import { TaskCollectionComponent } from './containers/task-collection/task-colle
     HttpModule,
     FormsModule,
     InMemoryWebApiModule.forRoot(InMemTodoService, { delay: 500 }),
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(fromRoot),
     StoreDevtoolsModule.instrument(),
     EffectsModule.forRoot([TaskEffects]),
     ToastyModule.forRoot()

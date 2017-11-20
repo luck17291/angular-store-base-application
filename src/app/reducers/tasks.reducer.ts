@@ -22,7 +22,7 @@ export const initialState: State = adapter.getInitialState({
     message: null
 });
 
-export function reducer(state = initialState, action: TaskAction.All): State {
+export function fromTasks(state = initialState, action: TaskAction.All): State {
     switch (action.type) {
         case TaskAction.LOAD: {
             return {

@@ -1,14 +1,15 @@
 <mat-toolbar color="primary">
-  <span>Todo List</span>
-  <button mat-icon-button (click)="getData()">
+  <span class="e2e-app-title">Todo List</span>
+  <button mat-icon-button class="e2e-reload-btn" (click)="getData()">
     <mat-icon>loop</mat-icon>
   </button>
-  <button mat-icon-button (click)="onAddTask()">
+  <button mat-icon-button class="e2e-add-task-btn" (click)="onAddTask()">
     <mat-icon>control_point</mat-icon>
   </button>
 </mat-toolbar>
 <br>
-<mat-progress-bar mode="indeterminate" *ngIf="isLoading$ | async"></mat-progress-bar>
+<mat-progress-bar mode="indeterminate" class="e2e-progess-bar" 
+*ngIf="isLoading$ | async"></mat-progress-bar>
 <app-toaster></app-toaster>
 <app-header></app-header>
 <app-todo [tasks$]="tasks$" (onUpdate)="onUpdateTask($event)" (onDelete)="onDeleteTask($event)"></app-todo>

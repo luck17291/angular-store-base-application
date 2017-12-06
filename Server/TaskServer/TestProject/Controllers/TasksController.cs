@@ -1,23 +1,29 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json;
+using System;
+using TestProject;
 
 namespace TestProject.Controllers
 {
+    [EnableCors("CorsPolicy")]
     [Route("api/[controller]")]
     public class TasksController : Controller
     {
+        private IMongoCollection<Task> collection;
+
+        public TasksController(IPersistance _persistance)
+        {
+            collection = _persistance.getDbCollecion();
+        }
 
         // GET api/values
         [HttpGet]
         public string Get()
         {
-            MongoClient connection = new MongoClient("mongodb://orient:orient@ds143744.mlab.com:43744/candidates");
-            var db = connection.GetDatabase("candidates");
-            var collection = db.GetCollection<Task>("Candidates");
-
-            var filter = Builders<Task>.Filter.Ne("Name", BsonString.Empty);
+            var filter = Builders<Task>.Filter.Where(t => t.Name != null);
             var document = collection.Find(filter).ToList();
             var json = JsonConvert.SerializeObject(document);
             return json;
@@ -27,10 +33,6 @@ namespace TestProject.Controllers
         [HttpGet("{id}")]
         public string Get(string id)
         {
-            MongoClient connection = new MongoClient("mongodb://orient:orient@ds143744.mlab.com:43744/candidates");
-            var db = connection.GetDatabase("candidates");
-            var collection = db.GetCollection<Task>("Candidates");
-
             var filter = Builders<Task>.Filter.Eq("_id", id);
             var entity = collection.Find(filter).FirstOrDefault();
 
@@ -40,40 +42,34 @@ namespace TestProject.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post([FromBody]Task newTask)
         {
-            MongoClient connection = new MongoClient("mongodb://orient:orient@ds143744.mlab.com:43744/candidates");
-            var db = connection.GetDatabase("candidates");
-            var collection = db.GetCollection<Task>("Candidates");
-            var newTask = new Task(value);
+            if (newTask == null) return Ok();
+          
+            newTask.Id = Guid.NewGuid().ToString();
             collection.InsertOne(newTask);
+            return Ok();
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(string id, [FromBody]Task updateTask)
         {
-            MongoClient connection = new MongoClient("mongodb://orient:orient@ds143744.mlab.com:43744/candidates");
-            var db = connection.GetDatabase("candidates");
-            var collection = db.GetCollection<Task>("Candidates");
-            var updateTask = new Task(value);
-
             var filter = Builders<Task>.Filter.Eq("_id", id);
-            var entity = collection.Find(filter).FirstOrDefault();
-            var update = Builders<Task>.Update.Set("Name", updateTask.Name);
-            update.Set("IsCompeleted", updateTask.IsCompletes);
+            var update = Builders<Task>.Update
+                .Set("Name", updateTask.Name)
+                .Set("IsCompleted", updateTask.IsCompleted);
             collection.UpdateOne(filter, update);
+            return Ok();
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(string id)
         {
-            MongoClient connection = new MongoClient("mongodb://orient:orient@ds143744.mlab.com:43744/candidates");
-            var db = connection.GetDatabase("candidates");
-            var collection = db.GetCollection<Task>("Candidates");
             var filter = Builders<Task>.Filter.Eq("_id", id);
             collection.DeleteOne(filter);
+            return Ok();
         }
     }
 }

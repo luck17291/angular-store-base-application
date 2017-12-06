@@ -1,0 +1,15 @@
+networks:
+  default:
+    external:
+      name: nat
+services:
+  testproject:
+    build:
+      context: C:\Projects\angular-store-base-application\Server\TaskServer\TestProject
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    image: testproject
+    ports:
+    - 80/tcp
+version: '3.0'

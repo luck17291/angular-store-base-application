@@ -40,10 +40,10 @@ export function reducer(state = initialState, action: TASK.Actions): State {
         case TASK.DELETE:
         case TASK.UPDATE:
         case TASK.ADD: {
-            return {
+            return JSON.parse(JSON.stringify({
                 ...state,
                 loading: true
-            }
+            }));
         }
 
         case TASK.ADD_COMPLETED: {

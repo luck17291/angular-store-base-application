@@ -16,6 +16,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 export class TodoComponent implements OnInit {
   tasks$: Observable<Task[]>;
   isLoading$: Observable<boolean>;
+  tasks: Task[];
 
   constructor(private store: Store<task.State>,
     public dialog: MatDialog, ) {
@@ -25,6 +26,10 @@ export class TodoComponent implements OnInit {
 
   ngOnInit() {
     this.getData();
+
+    this.tasks$.subscribe(tasks => {
+      this.tasks = JSON.parse(JSON.stringify(tasks));
+    });
   }
 
   getData() {
@@ -56,6 +61,10 @@ export class TodoComponent implements OnInit {
         this.store.dispatch(new taskAction.UpdateAction(result));
       }
     });
+  }
+
+  updateInline(task: Task) {
+    this.store.dispatch(new taskAction.UpdateAction(task));
   }
 
   delete(task: Task) {

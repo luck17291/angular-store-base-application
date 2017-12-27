@@ -12,10 +12,13 @@
 <app-toaster></app-toaster>
 <app-header></app-header>
 <mat-list>
-    <mat-list-item *ngFor="let task of tasks$ | async">
+    <mat-list-item *ngFor="let task of tasks">
         <mat-icon class="pointer" delete (click)="delete(task)">delete</mat-icon>
-        <h4 class="pointer">
+        <input type="text" [(ngModel)]="task.name">
+        <input (click)="updateInline(task)"  type="button" value="Update Inline">
+        <input (click)="update(task)" type="button" value="Update By Dialog">
+        <!-- <h4 class="pointer">
             <a (click)="update(task)">{{task.name}}</a>
-        </h4>
+        </h4> -->
     </mat-list-item>
 </mat-list>

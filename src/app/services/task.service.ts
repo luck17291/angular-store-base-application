@@ -7,7 +7,6 @@ import { Task } from '../models/task';
 @Injectable()
 export class TaskService {
     private API_PATH = '/api/tasks';
-
     constructor(private http: Http) { }
 
     getTasks(): Observable<Task[]> {
@@ -20,9 +19,10 @@ export class TaskService {
             .map(res => res.json());
     }
 
-    updateTask(task: Task): Observable<Task> {
+    updateTask(task: Task): Observable<any> {
         return this.http.put(this.API_PATH, task)
-            .map(res => res.json());
+                .map(() => { throw (new EvalError()) });
+                // .map(res => res.json());
     }
 
     deleteTask(task: Task): Observable<Task> {

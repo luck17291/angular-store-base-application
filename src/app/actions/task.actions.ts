@@ -56,7 +56,7 @@ export class UpdateCompletedAction implements Action {
 
 export class UpdateFailAction implements Action {
     type = UPDATE_FAIL;
-    constructor(public payload: Task) { }
+    constructor(public payload: any) { }
 }
 
 export class DeleteAction implements Action {

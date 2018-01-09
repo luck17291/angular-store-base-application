@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Effect, Actions } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
@@ -9,10 +9,13 @@ import { TaskService } from '../services/task.service';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 import { of } from 'rxjs/observable/of';
+import { Console } from '@angular/core/src/console';
+import * as fromTask from '../reducers';
 
+import {undo} from "ngrx-undo";
 @Injectable()
 export class TaskEffects {
-    constructor(private action$: Actions, private taskService: TaskService) {
+    constructor(private action$: Actions, private taskService: TaskService,private store: Store<fromTask.State>,) {
 
     }
 
@@ -41,10 +44,14 @@ export class TaskEffects {
     updateTask: Observable<Action> = this.action$
         .ofType(task.UPDATE)
         .map((action: task.UpdateAction) => action.payload)
-        .mergeMap(item =>
-            this.taskService.updateTask(item)
+        .mergeMap(item => this.taskService.updateTask(item)
                 .map(() => new task.UpdateCompletedAction(item))
-                .catch(() => of(new task.UpdateFailAction(item)))
+                .catch(() => {
+                    this.store.dispatch(undo(new task.UpdateAction(item)));
+                    return of(new task.UpdateFailAction(item));
+                })
+                // .catch(() => of(new task.UpdateFailAction(item)))
+            
         );
 
     @Effect()

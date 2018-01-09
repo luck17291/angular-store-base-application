@@ -26,6 +26,9 @@ import { DialogComponent } from './components/dialog/dialog.component';
 import { ToasterComponent } from './components/toaster/toaster.component';
 
 import { MatCheckboxModule, MatInputModule } from '@angular/material';
+import {handleUndo, configureBufferSize} from 'ngrx-undo';
+
+configureBufferSize(150);
 
 @NgModule({
   declarations: [
@@ -42,7 +45,7 @@ import { MatCheckboxModule, MatInputModule } from '@angular/material';
     HttpModule,
     FormsModule,
     InMemoryWebApiModule.forRoot(InMemTodoService, { delay: 500 }),
-    StoreModule.forRoot(reducers),
+    StoreModule.forRoot(reducers, {metaReducers:[handleUndo]}),
     StoreDevtoolsModule.instrument(),
     EffectsModule.forRoot([TaskEffects]),
     ToastyModule.forRoot(),

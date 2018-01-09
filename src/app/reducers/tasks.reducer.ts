@@ -38,7 +38,6 @@ export function reducer(state = initialState, action: TASK.Actions): State {
             }
         }
         case TASK.DELETE:
-        case TASK.UPDATE:
         case TASK.ADD: {
             return JSON.parse(JSON.stringify({
                 ...state,
@@ -73,7 +72,9 @@ export function reducer(state = initialState, action: TASK.Actions): State {
                 }
             }
         }
-        case TASK.UPDATE_COMPLETED:
+
+        case TASK.UPDATE:
+            // case TASK.UPDATE_COMPLETED:
             {
                 const task = action.payload;
                 return {
@@ -86,9 +87,29 @@ export function reducer(state = initialState, action: TASK.Actions): State {
                     }),
                     loading: false,
                     numberIncompletedTasks: countIncompletedTasks(state.entities),
+
+                }
+            }
+
+        case TASK.UPDATE_COMPLETED:
+            {
+                return {
+                    ...state,
                     message: {
                         type: MessageType.Success,
                         content: 'Update successed'
+                    }
+                }
+            }
+
+        case TASK.UPDATE_FAIL:
+            {
+                return {
+                    ...state,
+                    loading: false,
+                    message: {
+                        type: MessageType.Error,
+                        content: 'Error updating'
                     }
                 }
             }
@@ -115,17 +136,7 @@ export function reducer(state = initialState, action: TASK.Actions): State {
                     }
                 }
             }
-        case TASK.UPDATE_FAIL:
-            {
-                return {
-                    ...state,
-                    loading: false,
-                    message: {
-                        type: MessageType.Error,
-                        content: 'Error updating'
-                    }
-                }
-            }
+
         case TASK.LOAD_FAIL:
             {
                 return {

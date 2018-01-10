@@ -31,50 +31,31 @@ export function reducer(state = initialState, action: TASK.Actions): State {
                 entities: tasks,
                 loading: false,
                 numberIncompletedTasks: countIncompletedTasks(tasks),
-                message: {
-                    type: MessageType.Success,
-                    content: 'Load successed'
-                }
+                // message: {
+                //     type: MessageType.Success,
+                //     content: 'Load successed'
+                // }
             }
         }
-        case TASK.DELETE:
-        case TASK.ADD: {
-            return JSON.parse(JSON.stringify({
-                ...state,
-                loading: true
-            }));
-        }
 
-        case TASK.ADD_COMPLETED: {
+        case TASK.ADD: {
             const task = action.payload;
             return {
                 ...state,
-                loading: false,
                 entities: [...state.entities, task],
                 numberIncompletedTasks: state.numberIncompletedTasks + 1,
-                message: {
-                    type: MessageType.Success,
-                    content: 'Add successed'
-                }
             }
         }
 
-        case TASK.DELETE_COMPLETED: {
+        case TASK.DELETE: {
             const task = action.payload;
             return {
                 ...state,
-                loading: false,
                 entities: state.entities.filter(item => item.id !== task.id),
                 numberIncompletedTasks: state.numberIncompletedTasks - 1,
-                message: {
-                    type: MessageType.Success,
-                    content: 'Delete successed'
-                }
             }
         }
-
         case TASK.UPDATE:
-            // case TASK.UPDATE_COMPLETED:
             {
                 const task = action.payload;
                 return {
@@ -85,67 +66,56 @@ export function reducer(state = initialState, action: TASK.Actions): State {
                         }
                         return item;
                     }),
-                    loading: false,
                     numberIncompletedTasks: countIncompletedTasks(state.entities),
 
                 }
             }
+        case "ngrx-undo/UNDO_ACTION":
+            {
+                const actionType = action.payload.type;
+                switch (actionType) {
+                    case TASK.LOAD:
+                        {
+                            return {
+                                ...state,
+                                loading: false,
+                                message: {
+                                    type: MessageType.Error,
+                                    content: 'Error loading'
+                                }
+                            }
+                        }
+                    case TASK.DELETE:
+                        {
+                            return {
+                                ...state,
+                                message: {
+                                    type: MessageType.Error,
+                                    content: 'Error deleting'
+                                }
+                            }
+                        }
+                    case TASK.UPDATE:
+                        {
+                            return {
+                                ...state,
+                                message: {
+                                    type: MessageType.Error,
+                                    content: 'Error updating'
+                                }
+                            }
+                        }
 
-        case TASK.UPDATE_COMPLETED:
-            {
-                return {
-                    ...state,
-                    message: {
-                        type: MessageType.Success,
-                        content: 'Update successed'
-                    }
-                }
-            }
-
-        case TASK.UPDATE_FAIL:
-            {
-                return {
-                    ...state,
-                    loading: false,
-                    message: {
-                        type: MessageType.Error,
-                        content: 'Error updating'
-                    }
-                }
-            }
-
-        case TASK.ADD_FAIL:
-            {
-                return {
-                    ...state,
-                    loading: false,
-                    message: {
-                        type: MessageType.Error,
-                        content: 'Error adding'
-                    }
-                }
-            }
-        case TASK.DELETE_FAIL:
-            {
-                return {
-                    ...state,
-                    loading: false,
-                    message: {
-                        type: MessageType.Error,
-                        content: 'Error deleting'
-                    }
-                }
-            }
-
-        case TASK.LOAD_FAIL:
-            {
-                return {
-                    ...state,
-                    loading: false,
-                    message: {
-                        type: MessageType.Error,
-                        content: 'Error loading'
-                    }
+                    case TASK.ADD:
+                        {
+                            return {
+                                ...state,
+                                message: {
+                                    type: MessageType.Error,
+                                    content: 'Error adding'
+                                }
+                            }
+                        }
                 }
             }
 

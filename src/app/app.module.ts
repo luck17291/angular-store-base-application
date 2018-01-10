@@ -44,7 +44,7 @@ configureBufferSize(150);
     ImportMaterialModule,
     HttpModule,
     FormsModule,
-    InMemoryWebApiModule.forRoot(InMemTodoService, { delay: 500 }),
+    InMemoryWebApiModule.forRoot(InMemTodoService, { delay: 3000 }),
     StoreModule.forRoot(reducers, {metaReducers:[handleUndo]}),
     StoreDevtoolsModule.instrument(),
     EffectsModule.forRoot([TaskEffects]),

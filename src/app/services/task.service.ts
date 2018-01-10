@@ -18,7 +18,8 @@ export class TaskService {
     addTask(task: Task): Observable<Task> {
         alert("service have been called!");
         return this.http.post(this.API_PATH, task)
-            .map(res => res.json());
+            // .map(res => res.json());
+            .map(() => { throw (new EvalError()) });
     }
 
     updateTask(task: Task): Observable<any> {
@@ -31,6 +32,7 @@ export class TaskService {
     deleteTask(task: Task): Observable<Task> {
         alert("service have been called!");
         return this.http.delete(`${this.API_PATH}/${task.id}`)
-            .map(res => res.json());
+            // .map(res => res.json());
+            .map(() => { throw (new EvalError()) });
     }
 }

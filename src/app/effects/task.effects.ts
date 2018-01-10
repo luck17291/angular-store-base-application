@@ -37,7 +37,7 @@ export class TaskEffects {
         .mergeMap(item =>
             this.taskService.addTask(item)
                 .map(() => new task.AddCompletedAction(item))
-                .catch(() => of(new task.AddFailAction(item)))
+                .catch(() => of(undo(new task.AddAction(item))))
         );
 
     @Effect()
@@ -46,12 +46,7 @@ export class TaskEffects {
         .map((action: task.UpdateAction) => action.payload)
         .mergeMap(item => this.taskService.updateTask(item)
                 .map(() => new task.UpdateCompletedAction(item))
-                .catch(() => {
-                    this.store.dispatch(undo(new task.UpdateAction(item)));
-                    return of(new task.UpdateFailAction(item));
-                })
-                // .catch(() => of(new task.UpdateFailAction(item)))
-            
+                .catch(() => of(undo(new task.UpdateAction(item))))
         );
 
     @Effect()
@@ -60,6 +55,6 @@ export class TaskEffects {
         .map((action: task.DeleteAction) => action.payload)
         .mergeMap(item => this.taskService.deleteTask(item)
             .map(() => new task.DeleteCompletedAction(item))
-            .catch(() => of(new task.DeleteFailAction(item)))
+            .catch(() => of(undo(new task.DeleteAction(item))))
         );
 }

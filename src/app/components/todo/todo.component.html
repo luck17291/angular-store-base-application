@@ -11,14 +11,22 @@
 <mat-progress-bar mode="indeterminate" *ngIf="isLoading$ | async"></mat-progress-bar>
 <app-toaster></app-toaster>
 <app-header></app-header>
-<mat-list>
-    <mat-list-item *ngFor="let task of tasks">
-        <mat-icon class="pointer" delete (click)="delete(task)">delete</mat-icon>
-        <input type="text" [(ngModel)]="task.name">
-        <input (click)="updateInline(task)"  type="button" value="Update Inline">
-        <input (click)="update(task)" type="button" value="Update By Dialog">
-        <!-- <h4 class="pointer">
-            <a (click)="update(task)">{{task.name}}</a>
-        </h4> -->
-    </mat-list-item>
-</mat-list>
+<div class="row">
+    <div class="col-md-6">
+        <mat-list>
+            <mat-list-item *ngFor="let action of failActions">
+                <button (click)="retryAction(action)">{{action.type}}</button> 
+            </mat-list-item>
+        </mat-list>
+    </div>
+    <div class="col-md-6">
+        <mat-list>
+            <mat-list-item *ngFor="let task of tasks">
+                <mat-icon class="pointer" delete (click)="delete(task)">delete</mat-icon>
+                <input type="text" [(ngModel)]="task.name">
+                <input (click)="updateInline(task)" type="button" value="Update Inline">
+                <input (click)="update(task)" type="button" value="Update By Dialog">
+            </mat-list-item>
+        </mat-list>
+    </div>
+</div>

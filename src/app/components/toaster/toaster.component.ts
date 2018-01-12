@@ -29,9 +29,14 @@ export class ToasterComponent implements OnInit {
           title: null,
           msg: msg.content,
           showClose: true,
-          timeout: 5000,
+          // timeout: 5000,
           theme: 'material',
-
+          onAdd: (toast: ToastData) => {
+            console.log('Toast ' + toast.id + ' has been added!');
+          },
+          onRemove: function (toast: ToastData) {
+            console.log('Toast ' + toast.id + ' has been removed!');
+          }
         };
         switch (msg.type) {
           case MessageType.Error:

@@ -12,10 +12,10 @@ import { of } from 'rxjs/observable/of';
 import { Console } from '@angular/core/src/console';
 import * as fromTask from '../reducers';
 
-import {undo} from "ngrx-undo";
+import { undo } from "../actions/undoAction";
 @Injectable()
 export class TaskEffects {
-    constructor(private action$: Actions, private taskService: TaskService,private store: Store<fromTask.State>,) {
+    constructor(private action$: Actions, private taskService: TaskService, private store: Store<fromTask.State>, ) {
 
     }
 
@@ -45,8 +45,8 @@ export class TaskEffects {
         .ofType(task.UPDATE)
         .map((action: task.UpdateAction) => action.payload)
         .mergeMap(item => this.taskService.updateTask(item)
-                .map(() => new task.UpdateCompletedAction(item))
-                .catch(() => of(undo(new task.UpdateAction(item))))
+            .map(() => new task.UpdateCompletedAction(item))
+            .catch(() => of(undo(new task.UpdateAction(item))))
         );
 
     @Effect()

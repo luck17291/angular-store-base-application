@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Task } from '../../models/task';
-import { Store } from '@ngrx/store';
+import { Store,Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as task from '../../reducers';
 import * as taskAction from '../../actions/task.actions';
@@ -16,12 +16,15 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 export class TodoComponent implements OnInit {
   tasks$: Observable<Task[]>;
   isLoading$: Observable<boolean>;
+  failActions$: Observable<Array<Action>>;
   tasks: Task[];
+  failActions: Array<Action>;
 
   constructor(private store: Store<task.State>,
     public dialog: MatDialog, ) {
     this.tasks$ = store.select('task').select('entities');
     this.isLoading$ = store.select('task').select('loading');
+    this.failActions$ = store.select('task').select('failActions');
   }
 
   ngOnInit() {
@@ -29,6 +32,10 @@ export class TodoComponent implements OnInit {
 
     this.tasks$.subscribe(tasks => {
       this.tasks = JSON.parse(JSON.stringify(tasks));
+    });
+
+    this.failActions$.subscribe(action => {
+      this.failActions = JSON.parse(JSON.stringify(action));
     });
   }
 
@@ -69,6 +76,10 @@ export class TodoComponent implements OnInit {
 
   delete(task: Task) {
     this.store.dispatch(new taskAction.DeleteAction(task));
+  }
+
+  retryAction(action: Action){
+    this.store.dispatch(action);
   }
 }
 

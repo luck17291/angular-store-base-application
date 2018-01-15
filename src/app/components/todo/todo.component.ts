@@ -1,13 +1,15 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Task } from '../../models/task';
-import { Store,Action } from '@ngrx/store';
+import { Store, Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as task from '../../reducers';
 import * as taskAction from '../../actions/task.actions';
 import { DialogComponent } from '../../components/dialog/dialog.component';
-;
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Subject } from 'rxjs/Subject';
+
+import { TaskService } from '../../services/task.service'
 @Component({
   selector: 'app-todo',
   templateUrl: './todo.component.html',
@@ -20,16 +22,17 @@ export class TodoComponent implements OnInit {
   tasks: Task[];
   failActions: Array<Action>;
 
+  enableNetwork: boolean;
+
   constructor(private store: Store<task.State>,
-    public dialog: MatDialog, ) {
+    public dialog: MatDialog, 
+    private taskService: TaskService) {
     this.tasks$ = store.select('task').select('entities');
     this.isLoading$ = store.select('task').select('loading');
     this.failActions$ = store.select('task').select('failActions');
   }
 
   ngOnInit() {
-    this.getData();
-
     this.tasks$.subscribe(tasks => {
       this.tasks = JSON.parse(JSON.stringify(tasks));
     });
@@ -37,6 +40,17 @@ export class TodoComponent implements OnInit {
     this.failActions$.subscribe(action => {
       this.failActions = JSON.parse(JSON.stringify(action));
     });
+
+    this.taskService.enableNetwork$.subscribe(val => {
+      this.enableNetwork = val;
+    });
+
+    this.taskService.enableNetwork$.next(true);
+    this.getData();
+  }
+
+  changeNetwork() {
+    this.taskService.enableNetwork$.next(!this.enableNetwork);
   }
 
   getData() {
@@ -78,7 +92,7 @@ export class TodoComponent implements OnInit {
     this.store.dispatch(new taskAction.DeleteAction(task));
   }
 
-  retryAction(action: Action){
+  retryAction(action: Action) {
     this.store.dispatch(action);
   }
 }

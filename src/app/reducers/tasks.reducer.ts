@@ -23,7 +23,6 @@ const initialState: State = {
 };
 
 export function reducer(state = initialState, action: TASK.Actions): State {
-    RemoveActionToListAction(state.failActions, action);
     switch (action.type) {
         case TASK.LOAD: {
             return DeepCopy({
@@ -46,6 +45,7 @@ export function reducer(state = initialState, action: TASK.Actions): State {
             const task = action.payload;
             return DeepCopy({
                 ...state,
+                failActions: RemoveActionToListAction(state.failActions, action),
                 entities: [...state.entities, task],
                 numberIncompletedTasks: state.numberIncompletedTasks + 1,
             })
@@ -55,6 +55,7 @@ export function reducer(state = initialState, action: TASK.Actions): State {
             const task = action.payload;
             return DeepCopy({
                 ...state,
+                failActions: RemoveActionToListAction(state.failActions, action),
                 entities: state.entities.filter(item => item.id !== task.id),
                 numberIncompletedTasks: state.numberIncompletedTasks - 1,
             })
@@ -64,6 +65,7 @@ export function reducer(state = initialState, action: TASK.Actions): State {
                 const task = action.payload;
                 return DeepCopy({
                     ...state,
+                    failActions: RemoveActionToListAction(state.failActions, action),
                     entities: state.entities.map(item => {
                         if (item.id === task.id) {
                             return Object.assign({}, task);
@@ -71,13 +73,13 @@ export function reducer(state = initialState, action: TASK.Actions): State {
                         return item;
                     }),
                     numberIncompletedTasks: countIncompletedTasks(state.entities),
-
                 })
             }
         case "ngrx-undo/UNDO_ACTION":
             {
                 const actionType = action.payload.type;
                 let newFailActions = AddActionToListAction(state.failActions, action.payload);
+
                 switch (actionType) {
                     case TASK.LOAD:
                         {

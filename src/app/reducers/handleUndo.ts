@@ -20,9 +20,11 @@ export function handleUndo(rootReducer: ActionReducer<any>): ActionReducer<any> 
             // exact same state as before, but without the action we want to rollback
             executedActions.forEach(executedAction =>
                 newState = rootReducer(newState, executedAction));
-            //reducer handle UNDO_ACTION type to raise action fail message
+
+            //[CUSTOME]handle UNDO_ACTION type to raise action fail message in reducer
             newState = rootReducer(newState, action);
             executedActions.push(action);
+
             return newState;
         }
         // push every action that isn't an UNDO_ACTION to the executedActions property

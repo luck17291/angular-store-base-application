@@ -11,11 +11,13 @@
 <mat-progress-bar mode="indeterminate" *ngIf="isLoading$ | async"></mat-progress-bar>
 <app-toaster></app-toaster>
 <app-header></app-header>
+<mat-checkbox [ngModel]="enableNetwork" (ngModelChange)="changeNetwork()">Enable network</mat-checkbox>
 <div class="row">
     <div class="col-md-6">
         <mat-list>
             <mat-list-item *ngFor="let action of failActions">
                 <button (click)="retryAction(action)">{{action.type}}</button> 
+                <div>{{action.payload.name}}</div>
             </mat-list-item>
         </mat-list>
     </div>

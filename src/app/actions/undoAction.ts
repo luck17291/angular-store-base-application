@@ -8,3 +8,10 @@ export function undo(action: Action) {
         payload: action
     };
 }
+
+export class UndoAction implements Action {
+    type = UNDO_ACTION;
+    constructor(public payload: Action) { }
+}
+
+export type Actions = UndoAction;

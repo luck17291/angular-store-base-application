@@ -29,7 +29,7 @@ export class TodoComponent implements OnInit {
     private taskService: TaskService) {
     this.tasks$ = store.select('task').select('entities');
     this.isLoading$ = store.select('task').select('loading');
-    this.failActions$ = store.select('task').select('failActions');
+    this.failActions$ = store.select('undoAction').select('failActions');
   }
 
   ngOnInit() {

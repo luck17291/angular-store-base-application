@@ -76,7 +76,7 @@ export function reducer(state = initialState, action: TASK.Actions): TaskState {
                     message: null,
                 })
             }
-        case UNDO_ACTIONS.RAISE_ERROR_MESSAGE:
+        case UNDO_ACTIONS.UNDO_ACTION:
             {
                 const actionType = action.payload.type;
 

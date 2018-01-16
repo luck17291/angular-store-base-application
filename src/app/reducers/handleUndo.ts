@@ -1,5 +1,5 @@
 import { Action, ActionReducer } from '@ngrx/store';
-import { UNDO_ACTION } from '../actions/undoAction';
+import { UNDO_ACTION, RaiseErrorMessase } from '../actions/undoAction';
 
 
 let bufferSize = 100;
@@ -23,7 +23,9 @@ export function handleUndo(rootReducer: ActionReducer<any>): ActionReducer<any> 
 
             //[CUSTOME]
             //handle UNDO_ACTION type to raise fail action message in reducer
-            //raise message one time for last 
+            newState = rootReducer(newState, new RaiseErrorMessase(action.payload));
+            //[CUSTOME]
+            //add UNDO_ACTION action to store
             newState = rootReducer(newState, action);
 
             //[CUSTOME]

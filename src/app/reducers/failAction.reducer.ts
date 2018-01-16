@@ -59,3 +59,5 @@ function AddActionToListAction(listAction: Array<TASK.Actions>, action: TASK.Act
 function DeepCopy(object) {
     return JSON.parse(JSON.stringify(object));
 }
+
+export const getFailActions = (state: FailActionState) => state.failActions;

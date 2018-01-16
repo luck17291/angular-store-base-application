@@ -1,10 +1,11 @@
 import { Action } from '@ngrx/store';
 import { Task } from '../models/task';
 import * as TASK from '../actions/task.actions';
+import * as UNDO_ACTIONS from '../actions/undoAction';
 import { Message, MessageType } from '../models/message';
 import * as _ from "lodash";
 import { templateJitUrl, flatten } from '@angular/compiler';
-
+import { getFailActions } from './failAction.reducer';
 export interface TaskState {
     entities: Task[];
     loading: boolean;
@@ -20,12 +21,14 @@ const initialState: TaskState = {
 };
 
 export function reducer(state = initialState, action: TASK.Actions): TaskState {
+
     switch (action.type) {
         case TASK.LOAD: {
             return DeepCopy({
                 ...state,
                 loading: true,
-                numberIncompletedTasks: countIncompletedTasks(state.entities)
+                numberIncompletedTasks: countIncompletedTasks(state.entities),
+                message: null,
             });
         }
         case TASK.LOAD_COMPLETED: {
@@ -34,7 +37,8 @@ export function reducer(state = initialState, action: TASK.Actions): TaskState {
                 ...state,
                 entities: tasks,
                 loading: false,
-                numberIncompletedTasks: countIncompletedTasks(tasks)
+                numberIncompletedTasks: countIncompletedTasks(tasks),
+                message: null,
             })
         }
 
@@ -44,6 +48,7 @@ export function reducer(state = initialState, action: TASK.Actions): TaskState {
                 ...state,
                 entities: [...state.entities, task],
                 numberIncompletedTasks: state.numberIncompletedTasks + 1,
+                message: null,
             })
         }
 
@@ -53,6 +58,7 @@ export function reducer(state = initialState, action: TASK.Actions): TaskState {
                 ...state,
                 entities: state.entities.filter(item => item.id !== task.id),
                 numberIncompletedTasks: state.numberIncompletedTasks - 1,
+                message: null,
             })
         }
         case TASK.UPDATE:
@@ -67,9 +73,10 @@ export function reducer(state = initialState, action: TASK.Actions): TaskState {
                         return item;
                     }),
                     numberIncompletedTasks: countIncompletedTasks(state.entities),
+                    message: null,
                 })
             }
-        case "ngrx-undo/UNDO_ACTION":
+        case UNDO_ACTIONS.RAISE_ERROR_MESSAGE:
             {
                 const actionType = action.payload.type;
 

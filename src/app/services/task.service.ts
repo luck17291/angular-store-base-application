@@ -27,7 +27,7 @@ export class TaskService {
         // alert("service have been called!");
         return this.http.post(this.API_PATH, task)
             .map(res => {
-                if (!this.enableNetwork)
+                if (!this.enableNetwork || res.status !== 200)
                     throw (new EvalError());
                 else
                     return res.json();
@@ -38,7 +38,7 @@ export class TaskService {
         // alert("service have been called!");
         return this.http.put(this.API_PATH, task)
         .map(res => {
-            if (!this.enableNetwork)
+            if (!this.enableNetwork || res.status !== 200)
                 throw (new EvalError());
             else
                 return res.json();
@@ -49,7 +49,7 @@ export class TaskService {
         // alert("service have been called!");
         return this.http.delete(`${this.API_PATH}/${task.id}`)
         .map(res => {
-            if (!this.enableNetwork)
+            if (!this.enableNetwork || res.status !== 200)
                 throw (new EvalError());
             else
                 return res.json();

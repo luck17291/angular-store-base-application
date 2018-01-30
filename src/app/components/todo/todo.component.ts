@@ -24,7 +24,7 @@ export class TodoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getData();
+    // this.getData();
   }
 
   getData() {

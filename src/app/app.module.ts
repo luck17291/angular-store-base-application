@@ -27,6 +27,24 @@ import { ToasterComponent } from './components/toaster/toaster.component';
 
 import { MatCheckboxModule, MatInputModule } from '@angular/material';
 
+import { ServiceWorkerModule } from '@angular/service-worker';
+
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth-guard.service';
+import { provideRoutes } from '@angular/router/src/router_module';
+
+import { HttpClientModule } from '@angular/common/http'; 
+
+const appRoutes: Routes = [
+  {
+    path: '',
+    component: TodoComponent,
+    canActivate: [AuthGuard],
+  }
+];
+
+// export const MAIN_ROUTER_PROVIDER = [provideRoutes(appRoutes), AuthGuard]
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +58,10 @@ import { MatCheckboxModule, MatInputModule } from '@angular/material';
     BrowserAnimationsModule,
     ImportMaterialModule,
     HttpModule,
+    HttpClientModule,
     FormsModule,
+    RouterModule.forRoot(appRoutes),
+    ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
     InMemoryWebApiModule.forRoot(InMemTodoService, { delay: 500 }),
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument(),
@@ -50,6 +71,7 @@ import { MatCheckboxModule, MatInputModule } from '@angular/material';
     MatInputModule
   ],
   providers: [
+    AuthGuard,
     TaskService
   ],
   bootstrap: [AppComponent],

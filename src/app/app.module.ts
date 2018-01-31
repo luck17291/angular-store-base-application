@@ -24,7 +24,7 @@ import { TodoComponent } from './components/todo/todo.component';
 import { HeaderComponent } from './components/header/header.component';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { ToasterComponent } from './components/toaster/toaster.component';
-
+import { WelcomeComponent } from './components/welcome/welcome.component';
 import { MatCheckboxModule, MatInputModule } from '@angular/material';
 
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -33,11 +33,16 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth-guard.service';
 import { provideRoutes } from '@angular/router/src/router_module';
 
-import { HttpClientModule } from '@angular/common/http'; 
+import { HttpClientModule } from '@angular/common/http';
 
 const appRoutes: Routes = [
   {
     path: '',
+    component: WelcomeComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'todo',
     component: TodoComponent,
     canActivate: [AuthGuard],
   }
@@ -51,7 +56,8 @@ const appRoutes: Routes = [
     TodoComponent,
     HeaderComponent,
     DialogComponent,
-    ToasterComponent
+    ToasterComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,

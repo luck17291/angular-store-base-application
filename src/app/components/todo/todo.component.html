@@ -10,6 +10,7 @@
 <br>
 <mat-progress-bar mode="indeterminate" *ngIf="isLoading$ | async"></mat-progress-bar>
 <app-toaster></app-toaster>
+<a routerLink="/">Welcome Page</a>
 <app-header></app-header>
 <mat-list>
     <mat-list-item *ngFor="let task of tasks$ | async">

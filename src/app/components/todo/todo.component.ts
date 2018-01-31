@@ -28,7 +28,7 @@ export class TodoComponent implements OnInit {
   }
 
   getData() {
-    this.store.dispatch(new taskAction.LoadAction());
+    // this.store.dispatch(new taskAction.LoadAction());
   }
 
   add() {

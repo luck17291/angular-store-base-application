@@ -12,6 +12,7 @@ export class AuthGuard implements CanActivate {
 
     canActivate() {
         this.store.dispatch(new taskAction.LoadAction());
+        
         console.log('AuthGuard#canActivate called');
         return true;
     }

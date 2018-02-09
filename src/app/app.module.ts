@@ -26,6 +26,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
 import { ToasterComponent } from './components/toaster/toaster.component';
 
 import { MatCheckboxModule, MatInputModule } from '@angular/material';
+import { ServerTimeService } from './services/serverTime.service';
+
 
 @NgModule({
   declarations: [
@@ -50,7 +52,8 @@ import { MatCheckboxModule, MatInputModule } from '@angular/material';
     MatInputModule
   ],
   providers: [
-    TaskService
+    TaskService,
+    ServerTimeService
   ],
   bootstrap: [AppComponent],
   entryComponents: [DialogComponent],

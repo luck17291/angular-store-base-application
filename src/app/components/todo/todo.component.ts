@@ -1,12 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Task } from '../../models/task';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import * as task from '../../reducers';
 import * as taskAction from '../../actions/task.actions';
 import { DialogComponent } from '../../components/dialog/dialog.component';
-;
+
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
+import { ServerTimeService } from '../../services/serverTime.service';
 
 @Component({
   selector: 'app-todo',
@@ -16,15 +18,25 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 export class TodoComponent implements OnInit {
   tasks$: Observable<Task[]>;
   isLoading$: Observable<boolean>;
+  time: Date;
+  source = Observable.interval(100);
 
   constructor(private store: Store<task.State>,
-    public dialog: MatDialog, ) {
+    public dialog: MatDialog,
+    private serverTimeService: ServerTimeService) {
     this.tasks$ = store.select('task').select('entities');
     this.isLoading$ = store.select('task').select('loading');
   }
 
   ngOnInit() {
     this.getData();
+    const subscribe = this.source.subscribe(val => {
+      this.time = this.serverTimeService.getTime();
+    });
+  }
+
+  getServerTime() {
+    alert(this.serverTimeService.getTime());
   }
 
   getData() {
